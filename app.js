@@ -62,12 +62,20 @@ const pickEmoji = s => s.emoji || CAT_EMOJI[s.category] || "📖";
 
 /* 带重试的 JSON 拉取 ——
    公网隧道偶尔会回 503（或吐一个 HTML 错误页），一次失败就整个故事库变空，
-   界面会显示"0 个"。这里自动重试几次，把这种抖动吃掉。 */
+   界面会显示"0 个"。这里自动重试几次，把这种抖动吃掉。
+
+   404 是另一回事：它说明这个接口压根不存在（比如整个 App 托管成纯静态站时，
+   根本没有后端提供 api/available）。重试毫无意义 —— 记下来，本次会话不再问它，
+   省掉无谓的退避等待，也别在控制台刷红字。 */
+const DEAD_SRC = new Set();
+
 async function fetchJSON(url, tries = 4) {
+  if (DEAD_SRC.has(url)) throw new Error("接口不存在，已跳过：" + url);
   let lastErr = null;
   for (let i = 0; i < tries; i++) {
     try {
       const r = await fetch(url);
+      if (r.status === 404) { DEAD_SRC.add(url); throw new Error("HTTP 404（接口不存在）"); }
       if (!r.ok) throw new Error("HTTP " + r.status);
       const txt = await r.text();
       const t = txt.trim();
@@ -75,6 +83,7 @@ async function fetchJSON(url, tries = 4) {
       return JSON.parse(t);
     } catch (e) {
       lastErr = e;
+      if (DEAD_SRC.has(url)) break;                 // 404 不重试
       if (i < tries - 1) await new Promise(res => setTimeout(res, 500 * (i + 1)));
     }
   }
