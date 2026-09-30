@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>爸爸讲故事</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="爸爸讲故事">
+<meta name="theme-color" content="#0b0e1a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 顶部 -->
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="brand">
+      <div class="brand-mark" id="brandMark"></div>
+      <div class="brand-txt">
+        <h1>爸爸讲故事</h1>
+        <p id="greet">宝宝，我是爸爸</p>
+      </div>
+    </div>
+    <button class="icon-btn" id="btnHow" aria-label="使用说明">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.6 2.6 0 1 1 3.4 2.5c-.6.2-.9.7-.9 1.3v.4"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- 一句话开讲 -->
+  <section class="quick">
+    <button class="quick-btn" id="btnRandom">
+      <div class="quick-ic">
+        <svg viewBox="0 0 24 24"><path d="M12 3v18M8 7v10M4 9v6M16 6v12M20 9v6"/></svg>
+      </div>
+      <div class="quick-l">
+        <strong>随便讲一个</strong>
+        <span>不知道讲什么？爸爸帮你挑一个</span>
+      </div>
+      <svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </section>
+
+  <!-- 搜索 + 语音 -->
+  <section class="searchwrap">
+    <div class="search">
+      <svg class="s-ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+      <input id="q" type="search" placeholder="想听什么？说一句就行" autocomplete="off">
+      <button class="mic" id="btnMic" aria-label="语音搜索">
+        <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+      </button>
+    </div>
+    <div class="cats" id="cats"></div>
+  </section>
+
+  <!-- 助眠三件套 -->
+  <section class="ritual" id="ritual">
+    <div class="ritual-hd">爸爸的固定仪式</div>
+    <div class="ritual-row">
+      <button class="ritual-btn" data-ritual="hello">
+        <span class="r-em">👋</span><span>开场报到</span>
+      </button>
+      <button class="ritual-btn" data-ritual="poem">
+        <span class="r-em">🎋</span><span>念首古诗</span>
+      </button>
+      <button class="ritual-btn" data-ritual="night">
+        <span class="r-em">🌙</span><span>晚安收尾</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 列表 -->
+  <section class="listwrap">
+    <div class="list-hd"><span id="listTitle">全部故事</span><span id="listCount"></span></div>
+    <div id="list" class="list"></div>
+    <div id="empty" class="empty" hidden>
+      <div class="empty-em">🌙</div>
+      <p>没有找到这个故事</p>
+      <span>换个词试试，或者点「随便讲一个」</span>
+    </div>
+  </section>
+
+</main>
+
+<!-- 底部迷你播放器 -->
+<div class="mini" id="mini" hidden>
+  <div class="mini-prog"><i id="miniBar"></i></div>
+  <div class="mini-in">
+    <div class="mini-info" id="miniInfo">
+      <div class="mini-title" id="miniTitle">—</div>
+      <div class="mini-sub" id="miniSub">爸爸讲</div>
+    </div>
+    <button class="icon-btn sm" id="miniPlay" aria-label="播放暂停">
+      <svg class="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" fill="currentColor" stroke="none"/></svg>
+      <svg class="i-pause" viewBox="0 0 24 24"><path d="M7 4h4v16H7zM13 4h4v16h-4z" fill="currentColor" stroke="none"/></svg>
+    </button>
+    <button class="icon-btn sm" id="miniNext" aria-label="下一个">
+      <svg viewBox="0 0 24 24"><path d="M5 4l10 8-10 8z" fill="currentColor" stroke="none"/><path d="M17 4h2v16h-2z" fill="currentColor" stroke="none"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- 全屏播放器 -->
+<div class="player" id="player" hidden>
+  <div class="p-bg" id="pBg"></div>
+  <div class="p-top">
+    <button class="icon-btn" id="pClose" aria-label="收起">
+      <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="p-label" id="pLabel">爸爸讲</div>
+    <span class="p-spacer"></span>
+  </div>
+
+  <div class="p-art" id="pArt">
+    <div class="p-ring"></div>
+    <div class="p-ring r2"></div>
+    <div class="p-cat" id="pCat"></div>
+  </div>
+
+  <div class="p-info">
+    <h2 id="pTitle">—</h2>
+    <p id="pKeywords"></p>
+  </div>
+
+  <div class="p-prog">
+    <input type="range" id="seek" min="0" max="100" value="0" step="0.1">
+    <div class="p-time"><span id="tCur">0:00</span><span id="tDur">0:00</span></div>
+  </div>
+
+  <div class="p-ctrl">
+    <button class="icon-btn" id="pPrev" aria-label="上一个">
+      <svg viewBox="0 0 24 24"><path d="M19 4l-10 8 10 8z" fill="currentColor" stroke="none"/><path d="M5 4h2v16H5z" fill="currentColor" stroke="none"/></svg>
+    </button>
+    <button class="icon-btn" id="pBack" aria-label="后退15秒">
+      <svg viewBox="0 0 24 24"><path d="M11 5L6 9.5 11 14"/><path d="M6 9.5h8a5.5 5.5 0 1 1-5.5 5.5"/></svg>
+      <span class="p-num">15</span>
+    </button>
+    <button class="p-play" id="pPlay" aria-label="播放暂停">
+      <svg class="i-play" viewBox="0 0 24 24"><path d="M8 4l12 8-12 8z" fill="currentColor" stroke="none"/></svg>
+      <svg class="i-pause" viewBox="0 0 24 24"><path d="M7 4h4v16H7zM13 4h4v16h-4z" fill="currentColor" stroke="none"/></svg>
+    </button>
+    <button class="icon-btn" id="pFwd" aria-label="前进15秒">
+      <svg viewBox="0 0 24 24"><path d="M13 5l5 4.5L13 14"/><path d="M18 9.5h-8a5.5 5.5 0 1 0 5.5 5.5"/></svg>
+      <span class="p-num">15</span>
+    </button>
+    <button class="icon-btn" id="pNext" aria-label="下一个">
+      <svg viewBox="0 0 24 24"><path d="M5 4l10 8-10 8z" fill="currentColor" stroke="none"/><path d="M17 4h2v16h-2z" fill="currentColor" stroke="none"/></svg>
+    </button>
+  </div>
+
+  <div class="p-foot">
+    <button class="chip" id="pSpeed">1.0×</button>
+    <button class="chip" id="pLoop">单曲循环</button>
+    <button class="chip" id="pText">故事文字</button>
+  </div>
+
+  <div class="p-text" id="pTextWrap" hidden><div id="pTextBody"></div></div>
+</div>
+
+<!-- 使用说明 -->
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-mask" id="sheetMask"></div>
+  <div class="sheet-body">
+    <div class="sheet-bar"></div>
+
+    <!-- 在微信/QQ 这类内置浏览器里打开时，这条会亮出来（装不了，得先换 Safari） -->
+    <div class="inapp" id="inappWarn" hidden>
+      <div class="ia-hd" id="inappHd">⚠️ 现在这个浏览器装不了</div>
+      <div class="ia-tx" id="inappTx">请点右上角 <b>···</b>，选 <b>「在 Safari 中打开」</b>（或「在浏览器打开」），再按下面「装到手机桌面」的三步做。</div>
+    </div>
+
+    <h3>怎么用</h3>
+    <div class="howto">
+      <div class="ht"><b>1</b><div>点「随便讲一个」，或者直接搜「小猫」「月亮」。</div></div>
+      <div class="ht"><b>2</b><div>也可以按分类挑——<b>科普</b>讲新知识，<b>成长</b>讲好习惯。</div></div>
+      <div class="ht"><b>3</b><div>播放时锁屏也能继续，锁屏界面可以直接控制。</div></div>
+      <div class="ht"><b>4</b><div>「爸爸的固定仪式」里是每天不变的开场白、古诗和晚安语——<b>重复才是关键</b>。</div></div>
+      <div class="ht di"><b>·</b><div>声音是爸爸本人录制的。音量保持正常对话水平，一次 15—30 分钟就够。</div></div>
+    </div>
+
+    <h3 class="sheet-h3">装到手机桌面</h3>
+    <div class="howto">
+      <div class="ht"><b>1</b><div>用 <b>Safari</b> 打开本页面，点屏幕下方中间的 <b>分享按钮</b>（方框加向上箭头）。</div></div>
+      <div class="ht"><b>2</b><div>菜单里往下滑，选 <b>「添加到主屏幕」</b>。</div></div>
+      <div class="ht"><b>3</b><div>右上角点 <b>「添加」</b>。桌面就多出一个「爸爸讲故事」图标，以后点图标直接进，<b>不用再开浏览器、不用输网址</b>。</div></div>
+    </div>
+
+    <h3 class="sheet-h3">存到手机里，断网也能听</h3>
+    <div class="howto">
+      <div class="ht di"><b>·</b><div id="dlHint">每听一次，这条就自动存进手机。想一次性全部存好，点下面的按钮（<b>建议连 Wi-Fi</b>）。</div></div>
+    </div>
+    <button class="dl-btn" id="dlAll">把全部故事存到手机</button>
+    <div class="dl-prog" id="dlProg" hidden>
+      <i id="dlBar"></i>
+      <span id="dlTxt">准备中…</span>
+    </div>
+
+    <button class="sheet-ok" id="sheetOk">知道了</button>
+  </div>
+</div>
+
+<audio id="audio" preload="metadata" playsinline></audio>
+
+<!-- 装到桌面的一次性提示条（仅在 iPhone Safari 未安装时出现） -->
+<div class="instbar" id="instBar" hidden>
+  <span class="ib-em">📲</span>
+  <div class="ib-txt">
+    <b id="ibT">装到手机桌面</b>
+    <span id="ibS">三步搞定，以后点图标直接听</span>
+  </div>
+  <button class="ib-go" id="instGo">怎么做</button>
+  <button class="ib-x" id="instX" aria-label="不再提示">✕</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
