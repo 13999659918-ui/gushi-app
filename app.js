@@ -41,6 +41,13 @@ const el = {
 /* 跟 sw.js 里的 VER 保持一致，两边都改 */
 const CACHE_NAME = "baba-v3";
 
+/* 纯静态托管模式 ——
+   整个 App 放在 GitHub Pages 上时是没有后端的，那些 /api/* 接口压根不存在。
+   没有后端就别去问：只会拿到 404、在控制台刷红字，还白等重试。
+   由 index.html 里的 <meta name="app-mode" content="static"> 标记。 */
+const STATIC_MODE =
+  (document.querySelector('meta[name="app-mode"]') || {}).content === "static";
+
 let STORIES = [];
 let view = [];
 let READY_N = 0;
@@ -109,11 +116,14 @@ async function load() {
   } catch (e) {
     console.warn("静态音频清单读取失败（首次离线打开时属正常）", e);
   }
-  try {
-    const j = await fetchJSON("api/available", 2);
-    (j.list || []).forEach(n => have.add(n));
-  } catch (e) {
-    /* 断网时问不到，不是错误 —— 上面那份静态清单已经够了 */
+  // 纯静态托管下没有后端，跳过 —— 静态清单已经够用了
+  if (!STATIC_MODE) {
+    try {
+      const j = await fetchJSON("api/available", 2);
+      (j.list || []).forEach(n => have.add(n));
+    } catch (e) {
+      /* 断网时问不到，不是错误 —— 上面那份静态清单已经够了 */
+    }
   }
   const mark = s => {
     s.audio = have.has(s.id + ".mp3") ? "audio/" + s.id + ".mp3" : "";
