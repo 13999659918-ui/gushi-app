@@ -1,8 +1,8 @@
 {
 "ok": true,
-"count": 126,
-"bytes": 248450666,
-"updated": "2026-10-01 13:47:08",
+"count": 127,
+"bytes": 251225227,
+"updated": "2026-10-01 14:18:30",
 "list": [
 "_ritual_hello.mp3",
 "_ritual_night.mp3",
@@ -97,6 +97,7 @@
 "idiom__铁杵磨成针.mp3",
 "idiom__闻鸡起舞.mp3",
 "idiom__鹬蚌相争.mp3",
+"idiom__黔驴技穷.mp3",
 "myth__仓颉造字.mp3",
 "myth__八仙过海.mp3",
 "myth__北欧雷神托尔.mp3",
