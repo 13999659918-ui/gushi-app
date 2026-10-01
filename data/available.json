@@ -1,8 +1,8 @@
 {
 "ok": true,
-"count": 136,
-"bytes": 277165838,
-"updated": "2026-10-01 21:34:29",
+"count": 138,
+"bytes": 283298013,
+"updated": "2026-10-01 21:54:33",
 "list": [
 "_ritual_hello.mp3",
 "_ritual_night.mp3",
@@ -84,6 +84,7 @@
 "idiom__掩耳盗铃.mp3",
 "idiom__曹冲称象.mp3",
 "idiom__朝三暮四.mp3",
+"idiom__杞人忧天.mp3",
 "idiom__杯弓蛇影.mp3",
 "idiom__滥竽充数.mp3",
 "idiom__班门弄斧.mp3",
@@ -138,6 +139,7 @@
 "science__蜜蜂采蜜.mp3",
 "science__蝴蝶是怎么来的.mp3",
 "science__雨是从哪里来的.mp3",
+"science__雪花为什么是六角形.mp3",
 "science__风是从哪里来的.mp3",
 "小星星想家了.mp3"
 ]
