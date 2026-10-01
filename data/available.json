@@ -1,8 +1,8 @@
 {
 "ok": true,
-"count": 130,
-"bytes": 259616307,
-"updated": "2026-10-01 15:07:16",
+"count": 132,
+"bytes": 265425609,
+"updated": "2026-10-01 15:38:46",
 "list": [
 "_ritual_hello.mp3",
 "_ritual_night.mp3",
@@ -84,6 +84,7 @@
 "idiom__掩耳盗铃.mp3",
 "idiom__曹冲称象.mp3",
 "idiom__朝三暮四.mp3",
+"idiom__杯弓蛇影.mp3",
 "idiom__滥竽充数.mp3",
 "idiom__班门弄斧.mp3",
 "idiom__画蛇添足.mp3",
@@ -117,6 +118,7 @@
 "myth__盘古开天辟地.mp3",
 "myth__神农尝百草.mp3",
 "myth__精卫填海.mp3",
+"myth__赫尔墨斯的神奇飞鞋.mp3",
 "myth__雅典娜的智慧.mp3",
 "myth__黄帝战蚩尤.mp3",
 "original__小猫的冒险旅程.mp3",
